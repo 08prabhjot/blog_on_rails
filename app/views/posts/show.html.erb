@@ -4,30 +4,33 @@
     <%= @post.title %>
   </h1>
   <p><%= @post.body %></p>
-  <p> <%= time_ago_in_words @post.created_at %> </p>
-  <%= link_to "Edit", edit_post_path(@post) %>
-  <%= link_to "Delete", post_path(@post), method: :delete %>
+  <p>Posted <%= time_ago_in_words @post.created_at %> ago</p>
+  <%= link_to "Edit", edit_post_path(@post), class: "btn btn-outline-primary" %>
+  <%= link_to "Delete", post_path(@post), method: :delete, class: "btn btn-outline-primary" %>
 </div>
 
+<hr/>
+<h1>Comment</h1>
 <%= form_with(model: [@post, @comment], local:true) do |f| %>
   <% if @comment.errors.full_messages.each do |msg| %>
     <ul>
-      <li><%= msg %></li>
+      <div class='alert alert-danger'><%= msg %></div>
     </ul>
     <% end %>
   <% end %>
-  <div>
-    <%= f.text_area(:body, cols: 50, rows: 5, placeholder: "What do you think ?") %>
+  <div class='form-group'>
+    <%= f.text_area(:body, cols: 50, rows: 5, placeholder: "What do you think ?", class: 'form-control') %>
   </div>
-  <%= f.submit 'Submit'%>
+  <%= f.submit 'Submit', class: "btn btn-outline-primary" %>
 <% end %>
 
-<ul>
+<ul class='list-group'>
   <% @comments.each do |comment| %>
-    <li>
+    <li class='list-group-item'>
       <p><%= comment.body %></p>
 
-      <small>Commented <%= time_ago_in_words comment.created_at %></small>
+      <small>Commented <%= time_ago_in_words comment.created_at %> ago</small>
+    <%= link_to "Delete", post_comment_path(@post, comment), method: :delete %>
     </li>
   <% end %>
 </ul>

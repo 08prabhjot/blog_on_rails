@@ -1,9 +1,9 @@
 <h1>Post Index Page</h1>
 
 <div>
-  <ul>
+  <ul class='row row-cols-1 row-cols-md-2 row-cols-lg-3'>
     <% @posts.each do |post| %>
-      <%= link_to post do %>
+      <%= link_to post, class: 'list-group-item col' do %>
         <p><%= post.id %> <%= post.title %> </p>
       <% end %>
     <% end %>
