@@ -8,17 +8,33 @@
 
 Comment.delete_all
 Post.delete_all
+User.delete_all
 
 POSTS_NUM = 50
+NUM_USER = 10
+PASSWORD = 'supersecret'
+
+super_user = User.create(name: 'jon snow', email: 'js@winterfell.gov' , password: PASSWORD )
+
+NUM_USER.times do
+  User.create(
+      name: Faker::Name.name,
+      email: Faker::Internet.email,
+      password: PASSWORD
+  )
+end
+
+users = User.all
 
 POSTS_NUM.times do
   p = Post.create(
     title: Faker::Name.name,
-    body: Faker::Lorem.paragraph
+    body: Faker::Lorem.paragraph,
+    user: users.sample
   )
   if p.valid?
     p.comments = rand(0..9).times.map do
-      Comment.new(body: Faker::Hacker.say_something_smart)
+      Comment.new(body: Faker::Hacker.say_something_smart, user: users.sample)
     end
   end
 end
